@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>DataEllo — Organização Inteligente de Bancos de Dados</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg: #f4f8fd;
+      --text: #0b1220;
+      --muted: #64748b;
+      --primary: #0b63d8;
+      --secondary: #8b5cf6;
+      --card-bg: #ffffff;
+      --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --section-spacing: 6rem;
+    }
+
+    [data-theme="dark"] {
+      --bg: #060b14;
+      --text: #e8edf7;
+      --muted: #a0aec0;
+      --primary: #3ea3ff;
+      --secondary: #a78bfa;
+      --card-bg: rgba(255, 255, 255, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background-color var(--transition), color var(--transition);
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+    header {
+      position: fixed;
+      top: -100px;
+      left: 0;
+      right: 0;
+      background: var(--bg);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1000;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    [data-theme="dark"] header {
+      background: rgba(6, 11, 20, 0.92);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    header.visible {
+      top: 0;
+    }
+
+    header.scrolled {
+      padding: 0.3rem 0;
+      backdrop-filter: blur(16px);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 0;
+      transition: padding 0.3s ease;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-weight: 700;
+      font-size: 1.4rem;
+    }
+
+    .brand img {
+      width: 46px;
+      height: 46px;
+      transition: all 0.5s ease;
+    }
+
+    .brand:hover img {
+      transform: rotate(10deg) scale(1.05);
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      position: relative;
+      padding: 0.5rem 0;
+      transition: color 0.3s;
+    }
+
+    nav a:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    nav a:hover:after {
+      width: 100%;
+    }
+
+    /* THEME BUTTON */
+    .btn-theme {
+      background: rgba(0, 0, 0, 0.05);
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--text);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    [data-theme="dark"] .btn-theme {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .btn-theme:hover {
+      transform: rotate(20deg) scale(1.1);
+      background: var(--primary);
+      color: white;
+    }
+
+    /* HERO */
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: left;
+      padding: 2rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 50%, rgba(11, 99, 216, 0.1) 0%, transparent 60%);
+      z-index: -1;
+    }
+
+    [data-theme="dark"] .hero:before {
+      background: radial-gradient(circle at 30% 50%, rgba(62, 163, 255, 0.15) 0%, transparent 60%);
+    }
+
+    .hero-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 4rem;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeUp 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    }
+
+    .hero-text {
+      flex: 1;
+      min-width: 320px;
+    }
+
+    .hero-text h1 {
+      font-size: 3.8rem;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      font-weight: 800;
+      min-height: 140px;
+    }
+
+    .hero-text h1 .highlight {
+      color: var(--primary);
+      position: relative;
+    }
+
+    .hero-text h1 .highlight:after {
+      content: '';
+      position: absolute;
+      bottom: 5px;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: var(--primary);
+      opacity: 0.2;
+      z-index: -1;
+    }
+
+    .hero-text .subtitle {
+      font-size: 1.3rem;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      max-width: 90%;
+    }
+
+    .hero-logo {
+      flex: 0 0 auto;
+      position: relative;
+    }
+
+    .hero-logo img {
+      width: 420px;
+      max-width: 100%;
+      filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.2));
+      transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .hero-logo:hover img {
+      transform: scale(1.05) rotate(2deg);
+    }
+
+    /* BOTÕES */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      background: var(--primary);
+      color: #fff;
+      padding: 1rem 2.2rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(11, 99, 216, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.7s;
+    }
+
+    .btn-primary:hover:before {
+      left: 100%;
+    }
+
+    .btn-primary:hover {
+      background: #0044aa;
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(11, 99, 216, 0.4);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      background: transparent;
+      color: var(--text);
+      padding: 1rem 2.2rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      border: 2px solid var(--primary);
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    /* SEÇÕES */
+    .section {
+      padding: var(--section-spacing) 0;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 4rem;
+      position: relative;
+    }
+
+    .section-title h2 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      display: inline-block;
+    }
+
+    .section-title:after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    /* PORTFÓLIO ESPECIALIZADO */
+    .portfolio-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--text);
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn.active,
+    .tab-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .portfolio-item {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      transition: all 0.4s ease;
+      opacity: 0;
+      transform: translateY(30px);
+      position: relative;
+    }
+
+    .portfolio-item:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .portfolio-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .portfolio-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .portfolio-content {
+      padding: 1.5rem;
+    }
+
+    .portfolio-content h3 {
+      margin-bottom: 0.5rem;
+      color: var(--text);
+      font-size: 1.3rem;
+    }
+
+    .portfolio-content p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .portfolio-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      background: rgba(11, 99, 216, 0.1);
+      color: var(--primary);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    /* EQUIPE */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .team-member {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      transition: all 0.4s ease;
+      opacity: 0;
+      transform: translateY(30px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .team-member:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .team-member:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .member-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 1.5rem;
+      border: 4px solid var(--primary);
+      transition: transform 0.5s ease;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2.5rem;
+    }
+
+    .team-member:hover .member-avatar {
+      transform: scale(1.1);
+    }
+
+    .member-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .member-role {
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    .member-bio {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .member-social {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .member-social a {
+      color: var(--muted);
+      font-size: 1.2rem;
+      transition: color 0.3s ease;
+    }
+
+    .member-social a:hover {
+      color: var(--primary);
+    }
+
+    /* CONTATO */
+    .contact-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contact-info {
+      background: var(--card-bg);
+      padding: 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .contact-item:hover {
+      background: rgba(11, 99, 216, 0.05);
+    }
+
+    .contact-icon {
+      width: 50px;
+      height: 50px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .contact-details h3 {
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .contact-details p {
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .contact-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .contact-link:hover {
+      text-decoration: underline;
+    }
+
+    #contactForm {
+      background: var(--card-bg);
+      padding: 3rem;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    #contactForm input,
+    #contactForm textarea {
+      width: 100%;
+      padding: 1.2rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    [data-theme="dark"] #contactForm input,
+    [data-theme="dark"] #contactForm textarea {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    #contactForm input:focus,
+    #contactForm textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(11, 99, 216, 0.2);
+    }
+
+    #contactForm button {
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    /* SUPORTE */
+    .suporte-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .suporte-info {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .suporte-item {
+      text-align: center;
+      flex: 1;
+      min-width: 200px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.5s ease;
+    }
+
+    .suporte-icon {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 3rem;
+      color: var(--muted);
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      background: var(--card-bg);
+    }
+
+    [data-theme="dark"] footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* ANIMAÇÕES */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-15px);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease both;
+    }
+
+    .stagger-item {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    /* SCROLL INDICATOR */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      opacity: 0;
+      animation: fadeIn 1s ease 1.5s forwards;
+    }
+
+    .scroll-indicator .mouse {
+      width: 24px;
+      height: 40px;
+      border: 2px solid var(--muted);
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .scroll-indicator .mouse:before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 8px;
+      background: var(--muted);
+      border-radius: 2px;
+      animation: scroll 2s infinite;
+    }
+
+    @keyframes scroll {
+      0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(0);
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(15px);
+      }
+    }
+
+    /* RESPONSIVO */
+    @media (max-width: 900px) {
+      .hero-text h1 {
+        font-size: 3rem;
+      }
+      
+      .hero-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 3rem;
+      }
+      
+      .hero-text .subtitle {
+        max-width: 100%;
+      }
+      
+      .hero-logo img {
+        width: 320px;
+      }
+      
+      .nav-container {
+        display: none;
+      }
+      
+      .suporte-info {
+        flex-direction: column;
+        gap: 2rem;
+      }
+      
+      .contact-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero-text h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero {
+        padding: 1rem 0;
+        height: auto;
+        min-height: 100vh;
+      }
+      
+      .section {
+        padding: 4rem 0;
+      }
+      
+      .section-title h2 {
+        font-size: 2.2rem;
+      }
+      
+      #contactForm {
+        padding: 2rem;
+      }
+      
+      .brand {
+        font-size: 1.2rem;
+      }
+      
+      .brand img {
+        width: 38px;
+        height: 38px;
+      }
+      
+      .header-inner {
+        padding: 1rem 0;
+      }
+      
+      .portfolio-tabs {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .tab-btn {
+        width: 100%;
+        max-width: 250px;
+      }
+      
+      .team-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header oculto até scroll -->
+  <header id="header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img id="logo" src="logo1.png" alt="Logo DataEllo" />
+        <span>DataEllo</span>
+      </div>
+      <div class="nav-container">
+        <nav>
+          <a href="#portfolio">Portfólio</a>
+          <a href="#equipe">Equipe</a>
+          <a href="#contato">Contato</a>
+          <a href="#suporte">Suporte</a>
+        </nav>
+        <button id="themeToggle" class="btn-theme" aria-label="Alternar tema">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO FULLSCREEN -->
+    <section class="hero" id="hero">
+      <div class="hero-content container">
+        <div class="hero-text">
+          <h1 id="typing-title"></h1>
+          <p class="subtitle">Organizamos e otimizamos seus bancos de dados com IA, transformando dados complexos em insights acionáveis para seu negócio.</p>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="#portfolio" class="btn-primary">
+              <i class="fas fa-database"></i> Conheça Nossos Serviços
+            </a>
+            <a href="#contato" class="btn-secondary">
+              <i class="fas fa-envelope"></i> Solicitar Orçamento
+            </a>
+          </div>
+        </div>
+        <div class="hero-logo">
+          <img src="biglogo1.png" alt="Logo DataEllo" id="heroLogo" />
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <div class="mouse"></div>
+        <span>Role para explorar</span>
+      </div>
+    </section>
+
+    <!-- PORTFÓLIO ESPECIALIZADO EM ORGANIZAÇÃO DE DADOS -->
+    <section id="portfolio" class="section">
+      <div class="container">
+        <div class="section-title">
+          <h2>Nossas Soluções em Dados</h2>
+        </div>
+        
+        <div class="portfolio-tabs">
+          <button class="tab-btn active" data-category="all">Todos</button>
+          <button class="tab-btn" data-category="organizacao">Organização</button>
+          <button class="tab-btn" data-category="ia">Inteligência Artificial</button>
+          <button class="tab-btn" data-category="migracao">Migração</button>
+        </div>
+        
+        <div class="portfolio-grid">
+          <div class="portfolio-item" data-category="organizacao ia">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Organização de Dados com IA" class="portfolio-img">
+            <div class="portfolio-content">
+              <h3>Organização Inteligente de Dados</h3>
+              <p>Utilizamos IA para classificar, categorizar e estruturar seus bancos de dados, identificando padrões e relações ocultas.</p>
+              <div class="portfolio-tags">
+                <span class="tag">IA</span>
+                <span class="tag">Machine Learning</span>
+                <span class="tag">Data Cleaning</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="portfolio-item" data-category="migracao organizacao">
+            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Migração de Dados" class="portfolio-img">
+            <div class="portfolio-content">
+              <h3>Migração e Consolidação</h3>
+              <p>Migramos dados de sistemas legados para plataformas modernas, garantindo integridade e performance.</p>
+              <div class="portfolio-tags">
+                <span class="tag">ETL</span>
+                <span class="tag">SQL</span>
+                <span class="tag">NoSQL</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="portfolio-item" data-category="ia">
+            <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Análise Preditiva" class="portfolio-img">
+            <div class="portfolio-content">
+              <h3>Análise Preditiva com IA</h3>
+              <p>Implementamos modelos de machine learning para prever tendências e comportamentos baseados em seus dados históricos.</p>
+              <div class="portfolio-tags">
+                <span class="tag">Python</span>
+                <span class="tag">TensorFlow</span>
+                <span class="tag">Análise Preditiva</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="portfolio-item" data-category="organizacao">
+            <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Data Warehouse" class="portfolio-img">
+            <div class="portfolio-content">
+              <h3>Data Warehouse Otimizado</h3>
+              <p>Projetamos e implementamos data warehouses corporativos com estruturação inteligente para análise rápida.</p>
+              <div class="portfolio-tags">
+                <span class="tag">Data Warehouse</span>
+                <span class="tag">OLAP</span>
+                <span class="tag">Business Intelligence</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="portfolio-item" data-category="organizacao">
+            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Governança de Dados" class="portfolio-img">
+            <div class="portfolio-content">
+              <h3>Governança e Qualidade</h3>
+              <p>Estabelecemos políticas de governança e implementamos processos para garantir qualidade e consistência dos dados.</p>
+              <div class="portfolio-tags">
+                <span class="tag">Governança</span>
+                <span class="tag">Qualidade</span>
+                <span class="tag">Compliance</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="portfolio-item" data-category="ia organizacao">
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Automação de Processos" class="portfolio-img">
+            <div class="portfolio-content">
+              <h3>Automação com IA</h3>
+              <p>Desenvolvemos soluções de automação para processos de dados, reduzindo erros manuais e aumentando eficiência.</p>
+              <div class="portfolio-tags">
+                <span class="tag">Automação</span>
+                <span class="tag">RPA</span>
+                <span class="tag">Workflow</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EQUIPE -->
+    <section id="equipe" class="section">
+      <div class="container">
+        <div class="section-title">
+          <h2>Nossa Equipe</h2>
+        </div>
+        <div class="team-grid">
+          <!-- Gestor/CEO -->
+          <div class="team-member">
+            <div class="member-avatar">
+              <i class="fas fa-user-tie"></i>
+            </div>
+            <h3 class="member-name">Leonardo Santos Carniello</h3>
+            <p class="member-role">Gestor/CEO</p>
+            <p class="member-bio">Lidera a estratégia da empresa com visão inovadora em soluções de dados e IA.</p>
+            <div class="member-social">
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+          
+          <!-- Engenheiro de Software -->
+          <div class="team-member">
+            <div class="member-avatar">
+              <i class="fas fa-code"></i>
+            </div>
+            <h3 class="member-name">Murilo Neves Teixeira</h3>
+            <p class="member-role">Engenheiro de Software</p>
+            <p class="member-bio">Desenvolve soluções técnicas avançadas para organização e processamento de dados.</p>
+            <div class="member-social">
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+              <a href="#"><i class="fab fa-github"></i></a>
+            </div>
+          </div>
+          
+          <!-- Gerentes de Marketing -->
+          <div class="team-member">
+            <div class="member-avatar">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h3 class="member-name">Lucas Lima</h3>
+            <p class="member-role">Gerente de Marketing</p>
+            <p class="member-bio">Estratégias de marketing digital e posicionamento da marca no mercado de tecnologia.</p>
+            <div class="member-social">
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+          </div>
+          
+          <div class="team-member">
+            <div class="member-avatar">
+              <i class="fas fa-bullhorn"></i>
+            </div>
+            <h3 class="member-name">Luís Gustavo</h3>
+            <p class="member-role">Gerente de Marketing</p>
+            <p class="member-bio">Focado em comunicação corporativa e desenvolvimento de campanhas estratégicas.</p>
+            <div class="member-social">
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+          </div>
+          
+          <!-- Estagiário de Suporte -->
+          <div class="team-member">
+            <div class="member-avatar">
+              <i class="fas fa-headset"></i>
+            </div>
+            <h3 class="member-name">Maycon Kaio</h3>
+            <p class="member-role">Estagiário de Suporte</p>
+            <p class="member-bio">Atendimento ao cliente e suporte técnico inicial para nossas soluções em dados.</p>
+            <div class="member-social">
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+          </div>
+          
+          <!-- Atendentes Comerciais -->
+          <div class="team-member">
+            <div class="member-avatar">
+              <i class="fas fa-handshake"></i>
+            </div>
+            <h3 class="member-name">Miguel Nani</h3>
+            <p class="member-role">Atendente Comercial</p>
+            <p class="member-bio">Relacionamento com clientes e desenvolvimento de novas oportunidades de negócio.</p>
+            <div class="member-social">
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+          </div>
+          
+          <div class="team-member">
+            <div class="member-avatar">
+              <i class="fas fa-users"></i>
+            </div>
+            <h3 class="member-name">Marcos Vinícius</h3>
+            <p class="member-role">Atendente Comercial</p>
+            <p class="member-bio">Especialista em entender necessidades dos clientes e propor soluções personalizadas.</p>
+            <div class="member-social">
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+          </div>
+          
+          <!-- Técnico de Informática -->
+          <div class="team-member">
+            <div class="member-avatar">
+              <i class="fas fa-tools"></i>
+            </div>
+            <h3 class="member-name">Leonardo Teixeira</h3>
+            <p class="member-role">Técnico de Informática</p>
+            <p class="member-bio">Infraestrutura técnica e suporte especializado para implementação das soluções.</p>
+            <div class="member-social">
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+              <a href="#"><i class="fab fa-github"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTATO -->
+    <section id="contato" class="section">
+      <div class="container">
+        <div class="section-title">
+          <h2>Contato</h2>
+        </div>
+        <div class="contact-container">
+          <div class="contact-info">
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div class="contact-details">
+                <h3>Email</h3>
+                <p>Entre em contato conosco</p>
+                <a href="mailto:dataello2@gmail.com?subject=Contato%20DataEllo&body=Olá,%20gostaria%20de%20saber%20mais%20sobre%20seus%20serviços." class="contact-link">dataello2@gmail.com</a>
+              </div>
+            </div>
+            
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-phone"></i>
+              </div>
+              <div class="contact-details">
+                <h3>Telefone</h3>
+                <p>Fale diretamente conosco</p>
+                <a href="tel:+5511999999999" class="contact-link">(11) 99999-9999</a>
+              </div>
+            </div>
+            
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div class="contact-details">
+                <h3>Horário de Atendimento</h3>
+                <p>Segunda a Sexta: 8h às 18h</p>
+                <p>Sábado: 8h às 12h</p>
+              </div>
+            </div>
+            
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div class="contact-details">
+                <h3>Localização</h3>
+                <p>São Paulo, SP</p>
+                <p>Atendemos em todo o Brasil</p>
+              </div>
+            </div>
+          </div>
+          
+          <form id="contactForm">
+            <input type="text" placeholder="Nome completo" required>
+            <input type="email" placeholder="E-mail corporativo" required>
+            <input type="text" placeholder="Empresa">
+            <input type="tel" placeholder="Telefone (opcional)">
+            <textarea placeholder="Descreva sua necessidade com dados" rows="5" required></textarea>
+            <button type="submit" class="btn-primary">
+              <i class="fas fa-paper-plane"></i> Enviar Mensagem
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUPORTE -->
+    <section id="suporte" class="section">
+      <div class="container">
+        <div class="section-title">
+          <h2>Suporte</h2>
+        </div>
+        <div class="suporte-content">
+          <p style="font-size: 1.2rem; margin-bottom: 2rem;">Estamos aqui para ajudar você a extrair o máximo valor dos seus dados. Entre em contato para suporte técnico especializado.</p>
+          <div class="suporte-info">
+            <div class="suporte-item">
+              <div class="suporte-icon">
+                <i class="fas fa-headset"></i>
+              </div>
+              <h3>Suporte Técnico</h3>
+              <p>Especialistas em dados disponíveis para resolver suas dúvidas</p>
+            </div>
+            <div class="suporte-item">
+              <div class="suporte-icon">
+                <i class="fas fa-clock"></i>
+              </div>
+              <h3>Horário Comercial</h3>
+              <p>Segunda a sexta, das 8h às 18h</p>
+            </div>
+            <div class="suporte-item">
+              <div class="suporte-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <h3>Contato Prioritário</h3>
+              <p>suporte@dataello.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; <span id="year"></span> DataEllo — Todos os direitos reservados.</p>
+    <p style="margin-top: 1rem; font-size: 0.9rem;">Organização inteligente de bancos de dados com IA para empresas que querem tomar decisões baseadas em dados</p>
+  </footer>
+
+  <script>
+    // Exibe o header só depois de rolar
+    const header = document.getElementById("header");
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 100) {
+        header.classList.add("visible");
+        if (window.scrollY > 300) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      } else {
+        header.classList.remove("visible");
+        header.classList.remove("scrolled");
+      }
+    });
+
+    // Tema suave
+    const themeToggle = document.getElementById("themeToggle");
+    const heroLogo = document.getElementById("heroLogo");
+    const logo = document.getElementById("logo");
+
+    let currentTheme = localStorage.getItem("theme") || "light";
+    applyTheme(currentTheme);
+
+    themeToggle.addEventListener("click", () => {
+      currentTheme = currentTheme === "light" ? "dark" : "light";
+      applyTheme(currentTheme);
+      localStorage.setItem("theme", currentTheme);
+    });
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      themeToggle.textContent = theme === "light" ? "🌙" : "☀️";
+      // Verifica se as imagens existem antes de tentar alterar
+      if (heroLogo) heroLogo.src = theme === "light" ? "biglogo1.png" : "biglogo2.png";
+      if (logo) logo.src = theme === "light" ? "logo1.png" : "logo2.png";
+    }
+
+    // Atualiza ano
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Sistema de email funcional
+    function sendEmail() {
+      const name = document.querySelector('#contactForm input[type="text"]').value;
+      const email = document.querySelector('#contactForm input[type="email"]').value;
+      const company = document.querySelector('#contactForm input[type="text"]:nth-child(3)').value;
+      const phone = document.querySelector('#contactForm input[type="tel"]').value;
+      const message = document.querySelector('#contactForm textarea').value;
+      
+      const subject = `Contato DataEllo - ${company || 'Interessado'}`;
+      const body = `Nome: ${name}%0D%0AEmail: ${email}%0D%0AEmpresa: ${company}%0D%0ATelefone: ${phone}%0D%0A%0D%0AMensagem:%0D%0A${message}`;
+      
+      window.open(`mailto:dataello2@gmail.com?subject=${subject}&body=${body}`);
+    }
+
+    // Previne envio do formulário e abre email
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      sendEmail();
+      this.reset();
+    });
+
+    // Animação de entrada das seções
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          
+          // Anima os itens do portfólio com delay
+          if (entry.target.id === 'portfolio') {
+            const portfolioItems = entry.target.querySelectorAll('.portfolio-item');
+            portfolioItems.forEach((item, index) => {
+              setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+              }, 200 * index);
+            });
+          }
+          
+          // Anima os membros da equipe com delay
+          if (entry.target.id === 'equipe') {
+            const teamMembers = entry.target.querySelectorAll('.team-member');
+            teamMembers.forEach((member, index) => {
+              setTimeout(() => {
+                member.style.opacity = '1';
+                member.style.transform = 'translateY(0)';
+              }, 200 * index);
+            });
+          }
+          
+          // Anima os itens de suporte com delay
+          if (entry.target.id === 'suporte') {
+            const suporteItems = entry.target.querySelectorAll('.suporte-item');
+            suporteItems.forEach((item, index) => {
+              setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+              }, 200 * index);
+            });
+          }
+        }
+      });
+    }, observerOptions);
+
+    // Observa todas as seções
+    document.querySelectorAll('.section').forEach(section => {
+      observer.observe(section);
+    });
+
+    // Filtro do portfólio
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove a classe active de todos os botões
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        // Adiciona a classe active ao botão clicado
+        button.classList.add('active');
+        
+        const category = button.getAttribute('data-category');
+        
+        // Filtra os itens do portfólio
+        portfolioItems.forEach(item => {
+          if (category === 'all' || item.getAttribute('data-category').includes(category)) {
+            item.style.display = 'block';
+            // Adiciona animação de entrada
+            setTimeout(() => {
+              item.style.opacity = '1';
+              item.style.transform = 'translateY(0)';
+            }, 100);
+          } else {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+              item.style.display = 'none';
+            }, 300);
+          }
+        });
+      });
+    });
+
+    // Animação de digitação corrigida
+    function typeWriter() {
+      const titleElement = document.getElementById('typing-title');
+      const text = "Organizamos <span class='highlight'>dados</span>, geramos <span class='highlight'>insights</span>.";
+      let i = 0;
+      let isTag = false;
+      let currentText = '';
+      
+      function type() {
+        if (i < text.length) {
+          // Se encontrou uma tag HTML
+          if (text.charAt(i) === '<') {
+            isTag = true;
+            let tagContent = '';
+            
+            // Pega todo o conteúdo da tag
+            while (text.charAt(i) !== '>' && i < text.length) {
+              tagContent += text.charAt(i);
+              i++;
+            }
+            tagContent += '>'; // Fecha a tag
+            i++; // Avança para o próximo caractere
+            
+            currentText += tagContent;
+            titleElement.innerHTML = currentText;
+            
+            // Continua digitando após um pequeno delay
+            setTimeout(type, 50);
+          } else {
+            // Se não é uma tag, adiciona caractere por caractere
+            currentText += text.charAt(i);
+            titleElement.innerHTML = currentText;
+            i++;
+            setTimeout(type, 80);
+          }
+        }
+      }
+      
+      // Inicia a animação
+      type();
+    }
+
+    // Inicia a animação de digitação quando a página carrega
+    window.addEventListener('load', typeWriter);
+  </script>
+</body>
+</html>
