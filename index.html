@@ -3,27 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-  <title>DataEllo — Organização Inteligente de Bancos de Dados</title>
+  <title>DataEllo — Organização Inteligente de Bancos de Dados com IA</title>
+  <meta name="description" content="DataEllo - Organizamos seus bancos de dados com IA. Transforme dados complexos em insights acionáveis. Consultoria especializada em SQL, NoSQL, Data Warehouse.">
+  <meta name="keywords" content="organização de dados, IA, banco de dados, data warehouse, ETL, migração de dados, business intelligence">
+  <meta property="og:title" content="DataEllo - Organização Inteligente de Dados">
+  <meta property="og:description" content="Transformamos dados complexos em decisões estratégicas com IA">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <style>
     :root {
-      --bg: #f4f8fd;
-      --text: #0b1220;
+      --primary: #2563eb;
+      --secondary: #7c3aed;
+      --accent: #06b6d4;
+      --bg-light: #f8fafc;
+      --bg-dark: #0f172a;
+      --text-light: #1e293b;
+      --text-dark: #f1f5f9;
       --muted: #64748b;
-      --primary: #0b63d8;
-      --secondary: #8b5cf6;
       --card-bg: #ffffff;
-      --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       --section-spacing: 6rem;
     }
 
     [data-theme="dark"] {
-      --bg: #060b14;
-      --text: #e8edf7;
-      --muted: #a0aec0;
-      --primary: #3ea3ff;
-      --secondary: #a78bfa;
+      --bg: var(--bg-dark);
+      --text: var(--text-dark);
+      --muted: #94a3b8;
       --card-bg: rgba(255, 255, 255, 0.05);
+      --primary: #3b82f6;
+      --secondary: #8b5cf6;
     }
 
     * {
@@ -37,7 +46,7 @@
     }
 
     body {
-      font-family: "Segoe UI", system-ui, sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
@@ -66,7 +75,7 @@
     }
 
     [data-theme="dark"] header {
-      background: rgba(6, 11, 20, 0.92);
+      background: rgba(15, 23, 42, 0.92);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
@@ -170,7 +179,7 @@
       color: white;
     }
 
-    /* HERO */
+    /* HERO SECTION */
     .hero {
       height: 100vh;
       display: flex;
@@ -182,19 +191,22 @@
       overflow: hidden;
     }
 
-    .hero:before {
+    .hero::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at 30% 50%, rgba(11, 99, 216, 0.1) 0%, transparent 60%);
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      animation: gradientShift 8s ease infinite;
+      opacity: 0.1;
       z-index: -1;
     }
 
-    [data-theme="dark"] .hero:before {
-      background: radial-gradient(circle at 30% 50%, rgba(62, 163, 255, 0.15) 0%, transparent 60%);
+    @keyframes gradientShift {
+      0%, 100% { opacity: 0.1; }
+      50% { opacity: 0.2; }
     }
 
     .hero-content {
@@ -203,9 +215,6 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 4rem;
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeUp 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
     }
 
     .hero-text {
@@ -245,6 +254,28 @@
       max-width: 90%;
     }
 
+    .hero-stats {
+      display: flex;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--primary);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
     .hero-logo {
       flex: 0 0 auto;
       position: relative;
@@ -276,7 +307,7 @@
       transition: all 0.3s ease;
       border: none;
       cursor: pointer;
-      box-shadow: 0 10px 20px rgba(11, 99, 216, 0.3);
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
       position: relative;
       overflow: hidden;
     }
@@ -297,9 +328,9 @@
     }
 
     .btn-primary:hover {
-      background: #0044aa;
+      background: #1d4ed8;
       transform: translateY(-3px);
-      box-shadow: 0 15px 30px rgba(11, 99, 216, 0.4);
+      box-shadow: 0 15px 30px rgba(37, 99, 235, 0.4);
     }
 
     .btn-secondary {
@@ -323,17 +354,29 @@
       transform: translateY(-3px);
     }
 
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      background: transparent;
+      color: var(--text);
+      padding: 1rem 2.2rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 2px solid var(--muted);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+
     /* SEÇÕES */
     .section {
       padding: var(--section-spacing) 0;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-
-    .section.visible {
-      opacity: 1;
-      transform: translateY(0);
     }
 
     .section-title {
@@ -360,7 +403,439 @@
       border-radius: 2px;
     }
 
-    /* PORTFÓLIO ESPECIALIZADO */
+    /* DIFERENCIAIS */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .feature {
+      background: var(--card-bg);
+      padding: 2.5rem 2rem;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .feature:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .feature h3 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .feature p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* PROCESSO */
+    .process-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 2rem;
+      padding: 2rem;
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+
+    .step:hover {
+      transform: translateX(10px);
+    }
+
+    .step-number {
+      width: 60px;
+      height: 60px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .step-content h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .step-content p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* CASES DE SUCESSO */
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .case-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      transition: all 0.4s ease;
+    }
+
+    .case-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .case-header {
+      padding: 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .result-badge {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .case-content {
+      padding: 1.5rem;
+    }
+
+    .case-content h3 {
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .case-content p {
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .case-stats {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .case-stat {
+      text-align: center;
+      flex: 1;
+    }
+
+    .case-stat .number {
+      display: block;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .case-stat .label {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* CALCULADORA ROI */
+    .roi-calculator {
+      background: var(--card-bg);
+      padding: 3rem;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .calculator-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 1rem;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    [data-theme="dark"] .form-group input,
+    [data-theme="dark"] .form-group select,
+    [data-theme="dark"] .form-group textarea {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+
+    .roi-result {
+      text-align: center;
+      padding: 2rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-radius: 12px;
+      margin-top: 2rem;
+    }
+
+    .roi-result h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .roi-amount {
+      font-size: 2.5rem;
+      font-weight: 800;
+    }
+
+    /* CHATBOT */
+    .chat-widget {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 350px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .chat-widget.active {
+      display: flex;
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .chat-header {
+      padding: 1rem 1.5rem;
+      background: var(--primary);
+      color: white;
+      border-radius: 16px 16px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-header h4 {
+      margin: 0;
+    }
+
+    .online-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .online-dot {
+      width: 8px;
+      height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+    }
+
+    .close-chat {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0.2rem;
+      border-radius: 4px;
+      transition: background 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .close-chat:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .chat-messages {
+      padding: 1.5rem;
+      max-height: 300px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .message {
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 12px;
+      max-width: 80%;
+    }
+
+    .message.bot {
+      background: rgba(37, 99, 235, 0.1);
+      margin-right: auto;
+    }
+
+    .message.user {
+      background: rgba(124, 58, 237, 0.1);
+      margin-left: auto;
+    }
+
+    .quick-questions {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .quick-question {
+      background: transparent;
+      border: 1px solid var(--muted);
+      color: var(--text);
+      padding: 0.7rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: left;
+    }
+
+    .quick-question:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .chat-toggle {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 60px;
+      height: 60px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+      z-index: 999;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chat-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    .chat-toggle.hidden {
+      display: none;
+    }
+
+    /* AGENDAMENTO */
+    .scheduling-section {
+      background: var(--card-bg);
+      padding: 3rem;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .scheduling-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .calendar-placeholder {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .calendar-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    /* CTA SECTION */
+    .cta-section {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-radius: 20px;
+      margin: 4rem 0;
+    }
+
+    .cta-section h3 {
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* PORTFÓLIO */
     .portfolio-tabs {
       display: flex;
       justify-content: center;
@@ -398,25 +873,12 @@
       border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-      transition: all 0.4s ease;
-      opacity: 0;
-      transform: translateY(30px);
-      position: relative;
-    }
-
-    .portfolio-item:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 5px;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .portfolio-item:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
     }
 
     .portfolio-img {
@@ -449,7 +911,7 @@
     }
 
     .tag {
-      background: rgba(11, 99, 216, 0.1);
+      background: rgba(37, 99, 235, 0.1);
       color: var(--primary);
       padding: 0.3rem 0.8rem;
       border-radius: 20px;
@@ -460,7 +922,7 @@
     /* EQUIPE */
     .team-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 2rem;
       margin-top: 2rem;
     }
@@ -471,26 +933,12 @@
       padding: 2rem;
       text-align: center;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-      transition: all 0.4s ease;
-      opacity: 0;
-      transform: translateY(30px);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .team-member:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 5px;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .team-member:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
     }
 
     .member-avatar {
@@ -576,7 +1024,7 @@
     }
 
     .contact-item:hover {
-      background: rgba(11, 99, 216, 0.05);
+      background: rgba(37, 99, 235, 0.05);
     }
 
     .contact-icon {
@@ -612,7 +1060,7 @@
       text-decoration: underline;
     }
 
-    #contactForm {
+    #contactForm, #schedule-form {
       background: var(--card-bg);
       padding: 3rem;
       border-radius: 20px;
@@ -620,7 +1068,9 @@
     }
 
     #contactForm input,
-    #contactForm textarea {
+    #contactForm textarea,
+    #schedule-form input,
+    #schedule-form textarea {
       width: 100%;
       padding: 1.2rem;
       margin-bottom: 1.5rem;
@@ -633,18 +1083,23 @@
     }
 
     [data-theme="dark"] #contactForm input,
-    [data-theme="dark"] #contactForm textarea {
+    [data-theme="dark"] #contactForm textarea,
+    [data-theme="dark"] #schedule-form input,
+    [data-theme="dark"] #schedule-form textarea {
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     #contactForm input:focus,
-    #contactForm textarea:focus {
+    #contactForm textarea:focus,
+    #schedule-form input:focus,
+    #schedule-form textarea:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(11, 99, 216, 0.2);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
     }
 
-    #contactForm button {
+    #contactForm button,
+    #schedule-form button {
       width: 100%;
       margin-top: 1rem;
     }
@@ -671,9 +1126,6 @@
       text-align: center;
       flex: 1;
       min-width: 200px;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.5s ease;
     }
 
     .suporte-icon {
@@ -716,24 +1168,8 @@
       }
     }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
     .fade-in {
       animation: fadeIn 1s ease both;
-    }
-
-    .stagger-item {
-      opacity: 0;
-      transform: translateY(30px);
     }
 
     /* SCROLL INDICATOR */
@@ -748,8 +1184,6 @@
       gap: 10px;
       color: var(--muted);
       font-size: 0.9rem;
-      opacity: 0;
-      animation: fadeIn 1s ease 1.5s forwards;
     }
 
     .scroll-indicator .mouse {
@@ -821,8 +1255,18 @@
         gap: 2rem;
       }
       
-      .mobile-menu-btn {
-        display: block;
+      .scheduling-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .chat-widget {
+        width: 90%;
+        right: 5%;
+        bottom: 5rem;
+      }
+      
+      .team-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       }
     }
 
@@ -845,7 +1289,7 @@
         font-size: 2.2rem;
       }
       
-      #contactForm {
+      #contactForm, #schedule-form {
         padding: 2rem;
       }
       
@@ -875,12 +1319,41 @@
       .team-grid {
         grid-template-columns: 1fr;
       }
+      
+      .hero-stats {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .cta-buttons {
+        flex-direction: column;
+      }
+      
+      .step {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+      }
+    }
+
+    /* High contrast mode */
+    @media (prefers-contrast: high) {
+      :root {
+        --primary: #0056b3;
+        --text: #000000;
+      }
+    }
+
+    /* Focus states para acessibilidade */
+    button:focus, a:focus, input:focus, textarea:focus, select:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
   </style>
 </head>
 <body>
 
-  <!-- Header oculto até scroll -->
+  <!-- Header -->
   <header id="header">
     <div class="container header-inner">
       <div class="brand">
@@ -889,365 +1362,596 @@
       </div>
       <div class="nav-container">
         <nav>
-          <a href="#portfolio">Portfólio</a>
+          <a href="#diferenciais">Diferenciais</a>
+          <a href="#processo">Como Funciona</a>
+          <a href="#portfolio">Soluções</a>
+          <a href="#cases">Cases</a>
           <a href="#equipe">Equipe</a>
           <a href="#contato">Contato</a>
-          <a href="#suporte">Suporte</a>
         </nav>
         <button id="themeToggle" class="btn-theme" aria-label="Alternar tema">🌙</button>
       </div>
     </div>
   </header>
 
-  <main>
-    <!-- HERO FULLSCREEN -->
-    <section class="hero" id="hero">
-      <div class="hero-content container">
-        <div class="hero-text">
-          <h1 id="typing-title"></h1>
-          <p class="subtitle">Organizamos e otimizamos seus bancos de dados com IA, transformando dados complexos em insights acionáveis para seu negócio.</p>
-          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-            <a href="#portfolio" class="btn-primary">
-              <i class="fas fa-database"></i> Conheça Nossos Serviços
-            </a>
-            <a href="#contato" class="btn-secondary">
-              <i class="fas fa-envelope"></i> Solicitar Orçamento
-            </a>
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero-content container">
+      <div class="hero-text">
+        <h1 id="typing-title" data-aos="fade-up"></h1>
+        <p class="subtitle" data-aos="fade-up" data-aos-delay="200">
+          IA + Expertise humana para organizar seus bancos de dados e transformar informações complexas em decisões estratégicas
+        </p>
+        
+        <div class="hero-stats" data-aos="fade-up" data-aos-delay="400">
+          <div class="stat">
+            <span class="stat-number">+150</span>
+            <span class="stat-label">Projetos</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">98%</span>
+            <span class="stat-label">Satisfação</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">+50</span>
+            <span class="stat-label">Empresas</span>
           </div>
         </div>
-        <div class="hero-logo">
-          <img src="biglogo1.png" alt="Logo DataEllo" id="heroLogo" />
+
+        <div class="cta-buttons" data-aos="fade-up" data-aos-delay="600">
+          <button class="btn-primary" onclick="openModal('demo')">
+            <i class="fas fa-play-circle"></i> Solicitar Demonstração
+          </button>
+          <button class="btn-secondary" onclick="scrollToSection('processo')">
+            <i class="fas fa-info-circle"></i> Como Funciona
+          </button>
         </div>
       </div>
-      <div class="scroll-indicator">
-        <div class="mouse"></div>
-        <span>Role para explorar</span>
+      <div class="hero-logo" data-aos="fade-left" data-aos-delay="400">
+        <img src="biglogo1.png" alt="Logo DataEllo" id="heroLogo" />
       </div>
-    </section>
+    </div>
+    <div class="scroll-indicator">
+      <div class="mouse"></div>
+      <span>Role para explorar</span>
+    </div>
+  </section>
 
-    <!-- PORTFÓLIO ESPECIALIZADO EM ORGANIZAÇÃO DE DADOS -->
-    <section id="portfolio" class="section">
-      <div class="container">
-        <div class="section-title">
-          <h2>Nossas Soluções em Dados</h2>
+  <!-- Diferenciais -->
+  <section id="diferenciais" class="section">
+    <div class="container">
+      <div class="section-title" data-aos="fade-up">
+        <h2>Por que escolher a DataEllo?</h2>
+        <p>Nossa abordagem única combina tecnologia de ponta com expertise humana</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature" data-aos="fade-up" data-aos-delay="0">
+          <div class="feature-icon">🤖</div>
+          <h3>IA Especializada</h3>
+          <p>Algoritmos de machine learning treinados especificamente para organização e análise de dados empresariais</p>
+        </div>
+        <div class="feature" data-aos="fade-up" data-aos-delay="100">
+          <div class="feature-icon">⚡</div>
+          <h3>Implementação Rápida</h3>
+          <p>Resultados tangíveis em semanas, não em meses. Metodologia ágil e comprovada</p>
+        </div>
+        <div class="feature" data-aos="fade-up" data-aos-delay="200">
+          <div class="feature-icon">🛡️</div>
+          <h3>Segurança e Compliance</h3>
+          <p>Total conformidade com LGPD e melhores práticas de segurança de dados</p>
+        </div>
+        <div class="feature" data-aos="fade-up" data-aos-delay="300">
+          <div class="feature-icon">📊</div>
+          <h3>Business Intelligence</h3>
+          <p>Dashboards interativos e relatórios automatizados para tomada de decisão</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Processo de Trabalho -->
+  <section id="processo" class="section">
+    <div class="container">
+      <div class="section-title" data-aos="fade-up">
+        <h2>Como Trabalhamos</h2>
+        <p>Um processo claro e estruturado para garantir seus resultados</p>
+      </div>
+      <div class="process-steps">
+        <div class="step" data-aos="fade-right" data-aos-delay="0">
+          <div class="step-number">01</div>
+          <div class="step-content">
+            <h3>Diagnóstico Completo</h3>
+            <p>Análise detalhada do seu banco de dados atual, identificação de problemas e oportunidades de melhoria</p>
+          </div>
+        </div>
+        <div class="step" data-aos="fade-right" data-aos-delay="100">
+          <div class="step-number">02</div>
+          <div class="step-content">
+            <h3>Planejamento Estratégico</h3>
+            <p>Desenvolvimento de roadmap personalizado com objetivos claros e métricas de sucesso</p>
+          </div>
+        </div>
+        <div class="step" data-aos="fade-right" data-aos-delay="200">
+          <div class="step-number">03</div>
+          <div class="step-content">
+            <h3>Implementação com IA</h3>
+            <p>Execução do plano utilizando nossos algoritmos inteligentes para organização e otimização</p>
+          </div>
+        </div>
+        <div class="step" data-aos="fade-right" data-aos-delay="300">
+          <div class="step-number">04</div>
+          <div class="step-content">
+            <h3>Treinamento e Suporte</h3>
+            <p>Capacitação da equipe e suporte contínuo para garantir máximo aproveitamento</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Calculadora de ROI -->
+  <section id="roi" class="section">
+    <div class="container">
+      <div class="section-title" data-aos="fade-up">
+        <h2>Calcule seu Retorno</h2>
+        <p>Veja quanto sua empresa pode economizar com nossa solução</p>
+      </div>
+      <div class="roi-calculator" data-aos="fade-up" data-aos-delay="200">
+        <div class="calculator-form">
+          <div class="form-group">
+            <label for="data-volume">Volume de Dados (GB):</label>
+            <input type="range" id="data-volume" min="10" max="1000" value="100" oninput="updateROI()">
+            <span id="volume-value">100 GB</span>
+          </div>
+          <div class="form-group">
+            <label for="team-size">Tamanho da Equipe de Dados:</label>
+            <input type="range" id="team-size" min="1" max="20" value="3" oninput="updateROI()">
+            <span id="team-value">3 pessoas</span>
+          </div>
+          <div class="form-group">
+            <label for="complexity">Complexidade dos Dados:</label>
+            <select id="complexity" onchange="updateROI()">
+              <option value="1">Baixa</option>
+              <option value="1.5" selected>Média</option>
+              <option value="2">Alta</option>
+            </select>
+          </div>
+        </div>
+        <div class="roi-result">
+          <h3>Economia Estimada por Mês</h3>
+          <div class="roi-amount" id="roi-amount">R$ 12.500</div>
+          <p>Baseado em dados médios do mercado</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfólio de Soluções -->
+  <section id="portfolio" class="section">
+    <div class="container">
+      <div class="section-title" data-aos="fade-up">
+        <h2>Nossas Soluções</h2>
+        <p>Tecnologias especializadas para diferentes necessidades de dados</p>
+      </div>
+      
+      <div class="portfolio-tabs">
+        <button class="tab-btn active" data-category="all">Todas</button>
+        <button class="tab-btn" data-category="organizacao">Organização</button>
+        <button class="tab-btn" data-category="ia">Inteligência Artificial</button>
+        <button class="tab-btn" data-category="migracao">Migração</button>
+      </div>
+      
+      <div class="portfolio-grid">
+        <div class="portfolio-item" data-category="organizacao ia" data-aos="fade-up" data-aos-delay="0">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Organização de Dados com IA" class="portfolio-img">
+          <div class="portfolio-content">
+            <h3>Organização Inteligente</h3>
+            <p>IA para classificar, categorizar e estruturar bancos de dados, identificando padrões e relações</p>
+            <div class="portfolio-tags">
+              <span class="tag">IA</span>
+              <span class="tag">Machine Learning</span>
+              <span class="tag">Data Cleaning</span>
+            </div>
+          </div>
         </div>
         
-        <div class="portfolio-tabs">
-          <button class="tab-btn active" data-category="all">Todos</button>
-          <button class="tab-btn" data-category="organizacao">Organização</button>
-          <button class="tab-btn" data-category="ia">Inteligência Artificial</button>
-          <button class="tab-btn" data-category="migracao">Migração</button>
+        <div class="portfolio-item" data-category="migracao organizacao" data-aos="fade-up" data-aos-delay="100">
+          <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Migração de Dados" class="portfolio-img">
+          <div class="portfolio-content">
+            <h3>Migração e Consolidação</h3>
+            <p>Migração segura de sistemas legados para plataformas modernas com garantia de integridade</p>
+            <div class="portfolio-tags">
+              <span class="tag">ETL</span>
+              <span class="tag">SQL</span>
+              <span class="tag">NoSQL</span>
+            </div>
+          </div>
         </div>
         
-        <div class="portfolio-grid">
-          <div class="portfolio-item" data-category="organizacao ia">
-            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Organização de Dados com IA" class="portfolio-img">
-            <div class="portfolio-content">
-              <h3>Organização Inteligente de Dados</h3>
-              <p>Utilizamos IA para classificar, categorizar e estruturar seus bancos de dados, identificando padrões e relações ocultas.</p>
-              <div class="portfolio-tags">
-                <span class="tag">IA</span>
-                <span class="tag">Machine Learning</span>
-                <span class="tag">Data Cleaning</span>
+        <div class="portfolio-item" data-category="ia" data-aos="fade-up" data-aos-delay="200">
+          <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Análise Preditiva" class="portfolio-img">
+          <div class="portfolio-content">
+            <h3>Análise Preditiva</h3>
+            <p>Modelos de machine learning para prever tendências baseados em dados históricos</p>
+            <div class="portfolio-tags">
+              <span class="tag">Python</span>
+              <span class="tag">TensorFlow</span>
+              <span class="tag">Análise Preditiva</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cases de Sucesso -->
+  <section id="cases" class="section">
+    <div class="container">
+      <div class="section-title" data-aos="fade-up">
+        <h2>Cases de Sucesso</h2>
+        <p>Resultados reais que entregamos para nossos clientes</p>
+      </div>
+      <div class="cases-grid">
+        <div class="case-card" data-aos="flip-left" data-aos-delay="0">
+          <div class="case-header">
+            <h4>E-commerce Giant</h4>
+            <span class="result-badge">+300% eficiência</span>
+          </div>
+          <div class="case-content">
+            <h3>Organização de 2TB de Dados</h3>
+            <p>Implementamos solução completa para organização de dados de produtos, clientes e transações</p>
+            <div class="case-stats">
+              <div class="case-stat">
+                <span class="number">85%</span>
+                <span class="label">Redução de erros</span>
+              </div>
+              <div class="case-stat">
+                <span class="number">40%</span>
+                <span class="label">Mais rápido</span>
               </div>
             </div>
           </div>
-          
-          <div class="portfolio-item" data-category="migracao organizacao">
-            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Migração de Dados" class="portfolio-img">
-            <div class="portfolio-content">
-              <h3>Migração e Consolidação</h3>
-              <p>Migramos dados de sistemas legados para plataformas modernas, garantindo integridade e performance.</p>
-              <div class="portfolio-tags">
-                <span class="tag">ETL</span>
-                <span class="tag">SQL</span>
-                <span class="tag">NoSQL</span>
+        </div>
+        <div class="case-card" data-aos="flip-left" data-aos-delay="100">
+          <div class="case-header">
+            <h4>HealthTech</h4>
+            <span class="result-badge">LGPD Compliant</span>
+          </div>
+          <div class="case-content">
+            <h3>Migração para Cloud</h3>
+            <p>Migração segura de dados sensíveis para infraestrutura cloud com total conformidade</p>
+            <div class="case-stats">
+              <div class="case-stat">
+                <span class="number">99.9%</span>
+                <span class="label">Disponibilidade</span>
+              </div>
+              <div class="case-stat">
+                <span class="number">60%</span>
+                <span class="label">Redução de custos</span>
               </div>
             </div>
           </div>
-          
-          <div class="portfolio-item" data-category="ia">
-            <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Análise Preditiva" class="portfolio-img">
-            <div class="portfolio-content">
-              <h3>Análise Preditiva com IA</h3>
-              <p>Implementamos modelos de machine learning para prever tendências e comportamentos baseados em seus dados históricos.</p>
-              <div class="portfolio-tags">
-                <span class="tag">Python</span>
-                <span class="tag">TensorFlow</span>
-                <span class="tag">Análise Preditiva</span>
-              </div>
-            </div>
+        </div>
+        <div class="case-card" data-aos="flip-left" data-aos-delay="200">
+          <div class="case-header">
+            <h4>Fintech</h4>
+            <span class="result-badge">Machine Learning</span>
           </div>
-          
-          <div class="portfolio-item" data-category="organizacao">
-            <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Data Warehouse" class="portfolio-img">
-            <div class="portfolio-content">
-              <h3>Data Warehouse Otimizado</h3>
-              <p>Projetamos e implementamos data warehouses corporativos com estruturação inteligente para análise rápida.</p>
-              <div class="portfolio-tags">
-                <span class="tag">Data Warehouse</span>
-                <span class="tag">OLAP</span>
-                <span class="tag">Business Intelligence</span>
+          <div class="case-content">
+            <h3>Análise Preditiva</h3>
+            <p>Desenvolvimento de modelos preditivos para análise de risco e comportamento do cliente</p>
+            <div class="case-stats">
+              <div class="case-stat">
+                <span class="number">95%</span>
+                <span class="label">Precisão</span>
               </div>
-            </div>
-          </div>
-          
-          <div class="portfolio-item" data-category="organizacao">
-            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Governança de Dados" class="portfolio-img">
-            <div class="portfolio-content">
-              <h3>Governança e Qualidade</h3>
-              <p>Estabelecemos políticas de governança e implementamos processos para garantir qualidade e consistência dos dados.</p>
-              <div class="portfolio-tags">
-                <span class="tag">Governança</span>
-                <span class="tag">Qualidade</span>
-                <span class="tag">Compliance</span>
-              </div>
-            </div>
-          </div>
-          
-          <div class="portfolio-item" data-category="ia organizacao">
-            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Automação de Processos" class="portfolio-img">
-            <div class="portfolio-content">
-              <h3>Automação com IA</h3>
-              <p>Desenvolvemos soluções de automação para processos de dados, reduzindo erros manuais e aumentando eficiência.</p>
-              <div class="portfolio-tags">
-                <span class="tag">Automação</span>
-                <span class="tag">RPA</span>
-                <span class="tag">Workflow</span>
+              <div class="case-stat">
+                <span class="number">3x</span>
+                <span class="label">Mais insights</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- EQUIPE -->
-    <section id="equipe" class="section">
-      <div class="container">
-        <div class="section-title">
-          <h2>Nossa Equipe</h2>
+  <!-- CTA Section -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-section" data-aos="zoom-in">
+        <h3>Pronto para transformar seus dados?</h3>
+        <p>Junte-se a mais de 50 empresas que já descobriram o poder dos dados organizados</p>
+        <div class="cta-buttons">
+          <button class="btn-primary" onclick="openModal('demo')">
+            🎯 Solicitar Demonstração
+          </button>
+          <button class="btn-secondary" onclick="downloadCaseStudy()">
+            📥 Baixar Case Completo
+          </button>
+          <a href="#contato" class="btn-outline">
+            💬 Falar com Especialista
+          </a>
         </div>
-        <div class="team-grid">
-          <!-- Gestor/CEO -->
-          <div class="team-member">
-            <div class="member-avatar">
-              <i class="fas fa-user-tie"></i>
-            </div>
-            <h3 class="member-name">Leonardo Santos Carniello</h3>
-            <p class="member-role">Gestor/CEO</p>
-            <p class="member-bio">Lidera a estratégia da empresa com visão inovadora em soluções de dados e IA.</p>
-            <div class="member-social">
-              <a href="#"><i class="fab fa-linkedin"></i></a>
-              <a href="#"><i class="fab fa-twitter"></i></a>
-            </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Equipe COMPLETA -->
+  <section id="equipe" class="section">
+    <div class="container">
+      <div class="section-title" data-aos="fade-up">
+        <h2>Nossa Equipe</h2>
+        <p>Conheça os especialistas que vão transformar seus dados</p>
+      </div>
+      <div class="team-grid">
+        <!-- Gestor/CEO -->
+        <div class="team-member" data-aos="fade-up" data-aos-delay="0">
+          <div class="member-avatar">
+            <i class="fas fa-user-tie"></i>
           </div>
-          
-          <!-- Engenheiro de Software -->
-          <div class="team-member">
-            <div class="member-avatar">
-              <i class="fas fa-code"></i>
-            </div>
-            <h3 class="member-name">Murilo Neves Teixeira</h3>
-            <p class="member-role">Engenheiro de Software</p>
-            <p class="member-bio">Desenvolve soluções técnicas avançadas para organização e processamento de dados.</p>
-            <div class="member-social">
-              <a href="#"><i class="fab fa-linkedin"></i></a>
-              <a href="#"><i class="fab fa-github"></i></a>
-            </div>
+          <h3 class="member-name">Leonardo Santos Carniello</h3>
+          <p class="member-role">Gestor/CEO</p>
+          <p class="member-bio">Lidera a estratégia da empresa com visão inovadora em soluções de dados e IA</p>
+          <div class="member-social">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
           </div>
-          
-          <!-- Gerentes de Marketing -->
-          <div class="team-member">
-            <div class="member-avatar">
-              <i class="fas fa-chart-line"></i>
-            </div>
-            <h3 class="member-name">Lucas Lima</h3>
-            <p class="member-role">Gerente de Marketing</p>
-            <p class="member-bio">Estratégias de marketing digital e posicionamento da marca no mercado de tecnologia.</p>
-            <div class="member-social">
-              <a href="#"><i class="fab fa-linkedin"></i></a>
-              <a href="#"><i class="fab fa-instagram"></i></a>
-            </div>
+        </div>
+        
+        <!-- Engenheiro de Software -->
+        <div class="team-member" data-aos="fade-up" data-aos-delay="100">
+          <div class="member-avatar">
+            <i class="fas fa-code"></i>
           </div>
-          
-          <div class="team-member">
-            <div class="member-avatar">
-              <i class="fas fa-bullhorn"></i>
-            </div>
-            <h3 class="member-name">Luís Gustavo</h3>
-            <p class="member-role">Gerente de Marketing</p>
-            <p class="member-bio">Focado em comunicação corporativa e desenvolvimento de campanhas estratégicas.</p>
-            <div class="member-social">
-              <a href="#"><i class="fab fa-linkedin"></i></a>
-              <a href="#"><i class="fab fa-twitter"></i></a>
-            </div>
+          <h3 class="member-name">Murilo Neves Teixeira</h3>
+          <p class="member-role">Engenheiro de Software</p>
+          <p class="member-bio">Desenvolve soluções técnicas avançadas para organização e processamento de dados</p>
+          <div class="member-social">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
           </div>
-          
-          <!-- Estagiário de Suporte -->
-          <div class="team-member">
-            <div class="member-avatar">
-              <i class="fas fa-headset"></i>
-            </div>
-            <h3 class="member-name">Maycon Kaio</h3>
-            <p class="member-role">Estagiário de Suporte</p>
-            <p class="member-bio">Atendimento ao cliente e suporte técnico inicial para nossas soluções em dados.</p>
-            <div class="member-social">
-              <a href="#"><i class="fab fa-linkedin"></i></a>
-            </div>
+        </div>
+        
+        <!-- Gerentes de Marketing -->
+        <div class="team-member" data-aos="fade-up" data-aos-delay="200">
+          <div class="member-avatar">
+            <i class="fas fa-chart-line"></i>
           </div>
-          
-          <!-- Atendentes Comerciais -->
-          <div class="team-member">
-            <div class="member-avatar">
-              <i class="fas fa-handshake"></i>
-            </div>
-            <h3 class="member-name">Miguel Nani</h3>
-            <p class="member-role">Atendente Comercial</p>
-            <p class="member-bio">Relacionamento com clientes e desenvolvimento de novas oportunidades de negócio.</p>
-            <div class="member-social">
-              <a href="#"><i class="fab fa-linkedin"></i></a>
-            </div>
+          <h3 class="member-name">Lucas Lima</h3>
+          <p class="member-role">Gerente de Marketing</p>
+          <p class="member-bio">Estratégias de marketing digital e posicionamento da marca no mercado de tecnologia</p>
+          <div class="member-social">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
           </div>
-          
-          <div class="team-member">
-            <div class="member-avatar">
-              <i class="fas fa-users"></i>
-            </div>
-            <h3 class="member-name">Marcos Vinícius</h3>
-            <p class="member-role">Atendente Comercial</p>
-            <p class="member-bio">Especialista em entender necessidades dos clientes e propor soluções personalizadas.</p>
-            <div class="member-social">
-              <a href="#"><i class="fab fa-linkedin"></i></a>
-            </div>
+        </div>
+        
+        <div class="team-member" data-aos="fade-up" data-aos-delay="300">
+          <div class="member-avatar">
+            <i class="fas fa-bullhorn"></i>
           </div>
-          
-          <!-- Técnico de Informática -->
-          <div class="team-member">
-            <div class="member-avatar">
-              <i class="fas fa-tools"></i>
-            </div>
-            <h3 class="member-name">Leonardo Teixeira</h3>
-            <p class="member-role">Técnico de Informática</p>
-            <p class="member-bio">Infraestrutura técnica e suporte especializado para implementação das soluções.</p>
-            <div class="member-social">
-              <a href="#"><i class="fab fa-linkedin"></i></a>
-              <a href="#"><i class="fab fa-github"></i></a>
-            </div>
+          <h3 class="member-name">Luís Gustavo</h3>
+          <p class="member-role">Gerente de Marketing</p>
+          <p class="member-bio">Focado em comunicação corporativa e desenvolvimento de campanhas estratégicas</p>
+          <div class="member-social">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+
+        <!-- Estagiário de Suporte -->
+        <div class="team-member" data-aos="fade-up" data-aos-delay="400">
+          <div class="member-avatar">
+            <i class="fas fa-headset"></i>
+          </div>
+          <h3 class="member-name">Maycon Kaio</h3>
+          <p class="member-role">Estagiário de Suporte</p>
+          <p class="member-bio">Atendimento ao cliente e suporte técnico inicial para nossas soluções em dados</p>
+          <div class="member-social">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+
+        <!-- Atendentes Comerciais -->
+        <div class="team-member" data-aos="fade-up" data-aos-delay="500">
+          <div class="member-avatar">
+            <i class="fas fa-handshake"></i>
+          </div>
+          <h3 class="member-name">Miguel Nani</h3>
+          <p class="member-role">Atendente Comercial</p>
+          <p class="member-bio">Relacionamento com clientes e desenvolvimento de novas oportunidades de negócio</p>
+          <div class="member-social">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div class="team-member" data-aos="fade-up" data-aos-delay="600">
+          <div class="member-avatar">
+            <i class="fas fa-users"></i>
+          </div>
+          <h3 class="member-name">Marcos Vinícius</h3>
+          <p class="member-role">Atendente Comercial</p>
+          <p class="member-bio">Especialista em entender necessidades dos clientes e propor soluções personalizadas</p>
+          <div class="member-social">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+
+        <!-- Técnico de Informática -->
+        <div class="team-member" data-aos="fade-up" data-aos-delay="700">
+          <div class="member-avatar">
+            <i class="fas fa-tools"></i>
+          </div>
+          <h3 class="member-name">Leonardo Teixeira</h3>
+          <p class="member-role">Técnico de Informática</p>
+          <p class="member-bio">Infraestrutura técnica e suporte especializado para implementação das soluções</p>
+          <div class="member-social">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- CONTATO -->
-    <section id="contato" class="section">
-      <div class="container">
-        <div class="section-title">
-          <h2>Contato</h2>
-        </div>
-        <div class="contact-container">
-          <div class="contact-info">
-            <div class="contact-item">
-              <div class="contact-icon">
-                <i class="fas fa-envelope"></i>
-              </div>
-              <div class="contact-details">
-                <h3>Email</h3>
-                <p>Entre em contato conosco</p>
-                <a href="mailto:dataello2@gmail.com?subject=Contato%20DataEllo&body=Olá,%20gostaria%20de%20saber%20mais%20sobre%20seus%20serviços." class="contact-link">dataello2@gmail.com</a>
-              </div>
+  <!-- Agendamento -->
+  <section id="agendamento" class="section">
+    <div class="container">
+      <div class="section-title" data-aos="fade-up">
+        <h2>Agende uma Consultoria</h2>
+        <p>30 minutos gratuitos com nossos especialistas</p>
+      </div>
+      <div class="scheduling-section" data-aos="fade-up" data-aos-delay="200">
+        <div class="scheduling-container">
+          <div class="calendar-placeholder">
+            <div class="calendar-icon">
+              <i class="fas fa-calendar-alt"></i>
             </div>
-            
-            <div class="contact-item">
-              <div class="contact-icon">
-                <i class="fas fa-phone"></i>
-              </div>
-              <div class="contact-details">
-                <h3>Telefone</h3>
-                <p>Fale diretamente conosco</p>
-                <a href="tel:+5511999999999" class="contact-link">(11) 99999-9999</a>
-              </div>
-            </div>
-            
-            <div class="contact-item">
-              <div class="contact-icon">
-                <i class="fas fa-clock"></i>
-              </div>
-              <div class="contact-details">
-                <h3>Horário de Atendimento</h3>
-                <p>Segunda a Sexta: 8h às 18h</p>
-                <p>Sábado: 8h às 12h</p>
-              </div>
-            </div>
-            
-            <div class="contact-item">
-              <div class="contact-icon">
-                <i class="fas fa-map-marker-alt"></i>
-              </div>
-              <div class="contact-details">
-                <h3>Localização</h3>
-                <p>São Paulo, SP</p>
-                <p>Atendemos em todo o Brasil</p>
-              </div>
-            </div>
+            <h3>Selecione uma Data</h3>
+            <p>Escolha um horário disponível em nosso calendário</p>
+            <button class="btn-primary" style="margin-top: 1rem;" onclick="openSchedulingModal()">
+              Abrir Calendário
+            </button>
           </div>
-          
-          <form id="contactForm">
+          <form id="schedule-form">
+            <h3 style="margin-bottom: 1.5rem;">Informações de Contato</h3>
             <input type="text" placeholder="Nome completo" required>
-            <input type="email" placeholder="E-mail corporativo" required>
+            <input type="email" placeholder="Email corporativo" required>
+            <input type="tel" placeholder="Telefone" required>
             <input type="text" placeholder="Empresa">
-            <input type="tel" placeholder="Telefone (opcional)">
-            <textarea placeholder="Descreva sua necessidade com dados" rows="5" required></textarea>
+            <textarea placeholder="Descreva brevemente sua necessidade" rows="4"></textarea>
             <button type="submit" class="btn-primary">
-              <i class="fas fa-paper-plane"></i> Enviar Mensagem
+              <i class="fas fa-calendar-check"></i> Confirmar Agendamento
             </button>
           </form>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- SUPORTE -->
-    <section id="suporte" class="section">
-      <div class="container">
-        <div class="section-title">
-          <h2>Suporte</h2>
-        </div>
-        <div class="suporte-content">
-          <p style="font-size: 1.2rem; margin-bottom: 2rem;">Estamos aqui para ajudar você a extrair o máximo valor dos seus dados. Entre em contato para suporte técnico especializado.</p>
-          <div class="suporte-info">
-            <div class="suporte-item">
-              <div class="suporte-icon">
-                <i class="fas fa-headset"></i>
-              </div>
-              <h3>Suporte Técnico</h3>
-              <p>Especialistas em dados disponíveis para resolver suas dúvidas</p>
+  <!-- Contato -->
+  <section id="contato" class="section">
+    <div class="container">
+      <div class="section-title" data-aos="fade-up">
+        <h2>Contato</h2>
+        <p>Entre em contato e vamos conversar sobre seus dados</p>
+      </div>
+      <div class="contact-container">
+        <div class="contact-info" data-aos="fade-right">
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-envelope"></i>
             </div>
-            <div class="suporte-item">
-              <div class="suporte-icon">
-                <i class="fas fa-clock"></i>
-              </div>
-              <h3>Horário Comercial</h3>
-              <p>Segunda a sexta, das 8h às 18h</p>
+            <div class="contact-details">
+              <h3>Email</h3>
+              <p>Entre em contato conosco</p>
+              <a href="mailto:dataello2@gmail.com?subject=Contato%20DataEllo&body=Olá,%20gostaria%20de%20saber%20mais%20sobre%20seus%20serviços." class="contact-link">dataello2@gmail.com</a>
             </div>
-            <div class="suporte-item">
-              <div class="suporte-icon">
-                <i class="fas fa-envelope"></i>
-              </div>
-              <h3>Contato Prioritário</h3>
-              <p>suporte@dataello.com</p>
+          </div>
+          
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <div class="contact-details">
+              <h3>Telefone</h3>
+              <p>Fale diretamente conosco</p>
+              <a href="tel:+5511999999999" class="contact-link">(11) 99999-9999</a>
+            </div>
+          </div>
+          
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="contact-details">
+              <h3>Horário de Atendimento</h3>
+              <p>Segunda a Sexta: 8h às 18h</p>
+              <p>Sábado: 8h às 12h</p>
+            </div>
+          </div>
+          
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="contact-details">
+              <h3>Localização</h3>
+              <p>São Paulo, SP</p>
+              <p>Atendemos em todo o Brasil</p>
             </div>
           </div>
         </div>
+        
+        <form id="contactForm" data-aos="fade-left">
+          <h3 style="margin-bottom: 1.5rem;">Envie sua Mensagem</h3>
+          <input type="text" placeholder="Nome completo" required>
+          <input type="email" placeholder="E-mail corporativo" required>
+          <input type="text" placeholder="Empresa">
+          <input type="tel" placeholder="Telefone (opcional)">
+          <textarea placeholder="Descreva sua necessidade com dados" rows="5" required></textarea>
+          <button type="submit" class="btn-primary">
+            <i class="fas fa-paper-plane"></i> Enviar Mensagem
+          </button>
+        </form>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
+  <!-- Footer -->
   <footer>
-    <p>&copy; <span id="year"></span> DataEllo — Todos os direitos reservados.</p>
-    <p style="margin-top: 1rem; font-size: 0.9rem;">Organização inteligente de bancos de dados com IA para empresas que querem tomar decisões baseadas em dados</p>
+    <div class="container">
+      <p>&copy; <span id="year"></span> DataEllo — Todos os direitos reservados.</p>
+      <p style="margin-top: 1rem; font-size: 0.9rem;">Organização inteligente de bancos de dados com IA para empresas que querem tomar decisões baseadas em dados</p>
+    </div>
   </footer>
 
+  <!-- Chat Widget -->
+  <button class="chat-toggle" id="chatToggle">
+    <i class="fas fa-comment"></i>
+  </button>
+
+  <div class="chat-widget" id="chatWidget">
+    <div class="chat-header">
+      <h4>Assistente DataEllo</h4>
+      <div class="online-status">
+        <div class="online-dot"></div>
+        <span>Online</span>
+      </div>
+      <button class="close-chat" onclick="toggleChat()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="message bot">
+        Olá! Sou o assistente virtual da DataEllo. Como posso ajudar com seus dados hoje?
+      </div>
+    </div>
+    <div class="quick-questions">
+      <button class="quick-question" onclick="askQuestion('organizacao')">
+        Preciso organizar meus dados
+      </button>
+      <button class="quick-question" onclick="askQuestion('migracao')">
+        Quero migrar para a nuvem
+      </button>
+      <button class="quick-question" onclick="askQuestion('orcamento')">
+        Solicitar orçamento
+      </button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
-    // Exibe o header só depois de rolar
+    // Inicializa AOS
+    AOS.init({
+      duration: 800,
+      once: true,
+      offset: 100
+    });
+
+    // Header scroll effect
     const header = document.getElementById("header");
     window.addEventListener("scroll", () => {
       if (window.scrollY > 100) {
@@ -1263,7 +1967,7 @@
       }
     });
 
-    // Tema suave
+    // Theme toggle
     const themeToggle = document.getElementById("themeToggle");
     const heroLogo = document.getElementById("heroLogo");
     const logo = document.getElementById("logo");
@@ -1280,105 +1984,42 @@
     function applyTheme(theme) {
       document.documentElement.setAttribute("data-theme", theme);
       themeToggle.textContent = theme === "light" ? "🌙" : "☀️";
-      // Verifica se as imagens existem antes de tentar alterar
       if (heroLogo) heroLogo.src = theme === "light" ? "biglogo1.png" : "biglogo2.png";
       if (logo) logo.src = theme === "light" ? "logo1.png" : "logo2.png";
     }
 
-    // Atualiza ano
+    // Update year
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Sistema de email funcional
-    function sendEmail() {
-      const name = document.querySelector('#contactForm input[type="text"]').value;
-      const email = document.querySelector('#contactForm input[type="email"]').value;
-      const company = document.querySelector('#contactForm input[type="text"]:nth-child(3)').value;
-      const phone = document.querySelector('#contactForm input[type="tel"]').value;
-      const message = document.querySelector('#contactForm textarea').value;
+    // ROI Calculator
+    function updateROI() {
+      const volume = document.getElementById('data-volume').value;
+      const team = document.getElementById('team-size').value;
+      const complexity = document.getElementById('complexity').value;
       
-      const subject = `Contato DataEllo - ${company || 'Interessado'}`;
-      const body = `Nome: ${name}%0D%0AEmail: ${email}%0D%0AEmpresa: ${company}%0D%0ATelefone: ${phone}%0D%0A%0D%0AMensagem:%0D%0A${message}`;
+      document.getElementById('volume-value').textContent = volume + ' GB';
+      document.getElementById('team-value').textContent = team + ' pessoas';
       
-      window.open(`mailto:dataello2@gmail.com?subject=${subject}&body=${body}`);
+      const baseROI = volume * team * 25;
+      const adjustedROI = baseROI * complexity;
+      
+      document.getElementById('roi-amount').textContent = 'R$ ' + Math.round(adjustedROI).toLocaleString();
     }
 
-    // Previne envio do formulário e abre email
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      sendEmail();
-      this.reset();
-    });
-
-    // Animação de entrada das seções
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          
-          // Anima os itens do portfólio com delay
-          if (entry.target.id === 'portfolio') {
-            const portfolioItems = entry.target.querySelectorAll('.portfolio-item');
-            portfolioItems.forEach((item, index) => {
-              setTimeout(() => {
-                item.style.opacity = '1';
-                item.style.transform = 'translateY(0)';
-              }, 200 * index);
-            });
-          }
-          
-          // Anima os membros da equipe com delay
-          if (entry.target.id === 'equipe') {
-            const teamMembers = entry.target.querySelectorAll('.team-member');
-            teamMembers.forEach((member, index) => {
-              setTimeout(() => {
-                member.style.opacity = '1';
-                member.style.transform = 'translateY(0)';
-              }, 200 * index);
-            });
-          }
-          
-          // Anima os itens de suporte com delay
-          if (entry.target.id === 'suporte') {
-            const suporteItems = entry.target.querySelectorAll('.suporte-item');
-            suporteItems.forEach((item, index) => {
-              setTimeout(() => {
-                item.style.opacity = '1';
-                item.style.transform = 'translateY(0)';
-              }, 200 * index);
-            });
-          }
-        }
-      });
-    }, observerOptions);
-
-    // Observa todas as seções
-    document.querySelectorAll('.section').forEach(section => {
-      observer.observe(section);
-    });
-
-    // Filtro do portfólio
+    // Portfolio filtering
     const tabButtons = document.querySelectorAll('.tab-btn');
     const portfolioItems = document.querySelectorAll('.portfolio-item');
 
     tabButtons.forEach(button => {
       button.addEventListener('click', () => {
-        // Remove a classe active de todos os botões
         tabButtons.forEach(btn => btn.classList.remove('active'));
-        // Adiciona a classe active ao botão clicado
         button.classList.add('active');
         
         const category = button.getAttribute('data-category');
         
-        // Filtra os itens do portfólio
         portfolioItems.forEach(item => {
           if (category === 'all' || item.getAttribute('data-category').includes(category)) {
             item.style.display = 'block';
-            // Adiciona animação de entrada
             setTimeout(() => {
               item.style.opacity = '1';
               item.style.transform = 'translateY(0)';
@@ -1394,7 +2035,114 @@
       });
     });
 
-    // Animação de digitação corrigida
+    // Chat functionality - CORRIGIDO
+    let chatOpen = false;
+    const chatWidget = document.getElementById('chatWidget');
+    const chatToggle = document.getElementById('chatToggle');
+
+    function toggleChat() {
+      chatOpen = !chatOpen;
+      
+      if (chatOpen) {
+        chatWidget.classList.add('active');
+        chatToggle.classList.add('hidden');
+      } else {
+        chatWidget.classList.remove('active');
+        chatToggle.classList.remove('hidden');
+      }
+    }
+
+    // Fechar chat ao clicar fora
+    document.addEventListener('click', function(event) {
+      if (chatOpen && !chatWidget.contains(event.target) && !chatToggle.contains(event.target)) {
+        toggleChat();
+      }
+    });
+
+    function askQuestion(type) {
+      const chatMessages = document.getElementById('chatMessages');
+      let botResponse = '';
+      
+      switch(type) {
+        case 'organizacao':
+          botResponse = 'Entendi que você precisa organizar seus dados! Nossos especialistas em IA podem ajudar a estruturar suas informações de forma inteligente. Posso conectar você com nossa equipe?';
+          break;
+        case 'migracao':
+          botResponse = 'Excelente! A migração para a nuvem é um passo importante. Temos experiência em migrações seguras e eficientes. Gostaria de agendar uma avaliação gratuita?';
+          break;
+        case 'orcamento':
+          botResponse = 'Perfeito! Para prepararmos um orçamento personalizado, precisamos entender melhor sua necessidade. Podemos agendar uma call de 15 minutos?';
+          break;
+      }
+      
+      const userMessage = document.createElement('div');
+      userMessage.className = 'message user';
+      userMessage.textContent = getQuestionText(type);
+      chatMessages.appendChild(userMessage);
+      
+      setTimeout(() => {
+        const botMessage = document.createElement('div');
+        botMessage.className = 'message bot';
+        botMessage.textContent = botResponse;
+        chatMessages.appendChild(botMessage);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }, 1000);
+    }
+
+    function getQuestionText(type) {
+      const questions = {
+        'organizacao': 'Preciso organizar meus dados',
+        'migracao': 'Quero migrar para a nuvem',
+        'orcamento': 'Solicitar orçamento'
+      };
+      return questions[type];
+    }
+
+    // Email system
+    function sendEmail() {
+      const name = document.querySelector('#contactForm input[type="text"]').value;
+      const email = document.querySelector('#contactForm input[type="email"]').value;
+      const company = document.querySelector('#contactForm input[type="text"]:nth-child(3)').value;
+      const phone = document.querySelector('#contactForm input[type="tel"]').value;
+      const message = document.querySelector('#contactForm textarea').value;
+      
+      const subject = `Contato DataEllo - ${company || 'Interessado'}`;
+      const body = `Nome: ${name}%0D%0AEmail: ${email}%0D%0AEmpresa: ${company}%0D%0ATelefone: ${phone}%0D%0A%0D%0AMensagem:%0D%0A${message}`;
+      
+      window.open(`mailto:dataello2@gmail.com?subject=${subject}&body=${body}`);
+    }
+
+    // Form handlers
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      sendEmail();
+      this.reset();
+    });
+
+    document.getElementById('schedule-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Agendamento enviado! Entraremos em contato para confirmar.');
+      this.reset();
+    });
+
+    // Utility functions
+    function openModal(type) {
+      alert(`Modal ${type} seria aberto aqui!`);
+    }
+
+    function scrollToSection(sectionId) {
+      document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function downloadCaseStudy() {
+      alert('Iniciando download do case study...');
+    }
+
+    function openSchedulingModal() {
+      alert('Calendário de agendamento seria aberto aqui!');
+    }
+
+    // Typing animation
     function typeWriter() {
       const titleElement = document.getElementById('typing-title');
       const text = "Organizamos <span class='highlight'>dados</span>, geramos <span class='highlight'>insights</span>.";
@@ -1404,26 +2152,22 @@
       
       function type() {
         if (i < text.length) {
-          // Se encontrou uma tag HTML
           if (text.charAt(i) === '<') {
             isTag = true;
             let tagContent = '';
             
-            // Pega todo o conteúdo da tag
             while (text.charAt(i) !== '>' && i < text.length) {
               tagContent += text.charAt(i);
               i++;
             }
-            tagContent += '>'; // Fecha a tag
-            i++; // Avança para o próximo caractere
+            tagContent += '>';
+            i++;
             
             currentText += tagContent;
             titleElement.innerHTML = currentText;
             
-            // Continua digitando após um pequeno delay
             setTimeout(type, 50);
           } else {
-            // Se não é uma tag, adiciona caractere por caractere
             currentText += text.charAt(i);
             titleElement.innerHTML = currentText;
             i++;
@@ -1432,12 +2176,14 @@
         }
       }
       
-      // Inicia a animação
       type();
     }
 
-    // Inicia a animação de digitação quando a página carrega
-    window.addEventListener('load', typeWriter);
+    // Initialize on load
+    window.addEventListener('load', function() {
+      typeWriter();
+      updateROI();
+    });
   </script>
 </body>
 </html>
